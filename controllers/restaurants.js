@@ -1,5 +1,8 @@
 //@desc Get all Restaurants
 //@route GET /api/v1/Restaurants 
+
+const Restaurant = require("../models/restaurant");
+
 //@access Public
 exports.getRestaurants = (req,res,next) =>{
     res.status(200).json({success:true, msg:'Show all Restaurants'});
@@ -15,8 +18,18 @@ exports.getRestaurant = (req,res,next) => {
 //@desc Create new Restaurant
 //@route POST /api/v1/Restaurants 
 //@access Private
-exports.createRestaurant = (req,res,next) => {
-    res.status(200).json({success:true, msg:'Create new Restaurants'});
+exports.createRestaurant = async(req,res,next) => {
+    // res.status(200).json({success:true, msg:'Create new Restaurants'});
+    try{const restaurant = await Restaurant.create(req.body) ;
+        console.log(req.body);
+        res.status(201).json({
+            success:true ,
+            data: restaurant
+        });
+    } catch(err){
+        console.log(err);
+        res.status(400).json({success:false});
+    }
 };
 
 //@desc Update Restaurant
