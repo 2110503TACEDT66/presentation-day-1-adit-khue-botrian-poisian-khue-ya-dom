@@ -44,6 +44,16 @@ const RestaurantSchema = new mongoose.Schema({
     // }
 },{
     collection : "restaurant"
+},{
+    toJSON : {virtuals : true},
+    toObject : {virtuals : true}
+});
+
+RestaurantSchema.virtual('reservations',{
+    ref:"Reservation",
+    localField:'_id',
+    foreignField:'restaurant',
+    justOne:false
 });
 
 module.exports=mongoose.model('Restaurant',RestaurantSchema);

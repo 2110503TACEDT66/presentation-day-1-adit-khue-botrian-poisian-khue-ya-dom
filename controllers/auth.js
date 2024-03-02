@@ -32,7 +32,7 @@ exports.login=async (req, res, next) => {
         return res.status(400).json({success: false, msg: 'Please provide an email and password' }); 
         //Check for user 
     }
-    const user = await User.findOne({"email":email}).select('+password');
+    const user = await User.findOne({email}).select('+password');
     if(!user) { 
         return res.status(400).json({success: false, msg: 'Invalid credentials'});
      }
@@ -42,7 +42,7 @@ exports.login=async (req, res, next) => {
             return res.status(401).json({success: false, msg: 'Invalid credentials'}); 
           }
           //Create token 
-    //const token=user.getSignedJwtToken();
+    const token=user.getSignedJwtToken();
     //res.status(200).json({success: true, token});
     sendTokenResponse (user, 200, res); 
 };

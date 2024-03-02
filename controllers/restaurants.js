@@ -1,7 +1,7 @@
 //@desc Get all Restaurants
 //@route GET /api/v1/Restaurants 
 
-const Restaurant = require("../models/restaurant");
+const Restaurant = require("../models/Restaurant");
 
 //@access Public
 exports.getRestaurants = async(req,res,next) =>{
