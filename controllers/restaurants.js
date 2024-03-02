@@ -4,15 +4,31 @@
 const Restaurant = require("../models/restaurant");
 
 //@access Public
-exports.getRestaurants = (req,res,next) =>{
-    res.status(200).json({success:true, msg:'Show all Restaurants'});
+exports.getRestaurants = async(req,res,next) =>{
+    // res.status(200).json({success:true, msg:'Show all Restaurants'});
+    try{
+        const restaurants = await Restaurant.find() ;
+        res.status(200).json({success:true, count:restaurants.length , data:restaurants});
+    } catch(err){
+        res.status(200).json({success:false}) ;
+    }
 };
 
 //@desc Get single Restaurant
 //@route GET /api/v1/Restaurants/:id
 //@access Public
-exports.getRestaurant = (req,res,next) => {
-    res.status(200).json({success:true, msg:`Show all Restaurants ${req.params.id}`});
+exports.getRestaurant = async(req,res,next) => {
+    // res.status(200).json({success:true, msg:`Show all Restaurants ${req.params.id}`});
+    try{
+        const restaurant = await Restaurant.findById(req.params.id);
+ 
+        if (!restaurant) {
+            return res.status (400).json({success:false});
+        }
+        res.status(200).json({success:true, data:restaurant}) ;
+    } catch (err){
+        res.status(400).json({success:false}) ;
+    } 
 };
 
 //@desc Create new Restaurant
@@ -35,14 +51,37 @@ exports.createRestaurant = async(req,res,next) => {
 //@desc Update Restaurant
 //@route PUT /api/v1/Restaurants/:id
 //@access Private
-exports.updateRestaurant = (req,res,next) => {
-    res.status(200).json({success:true, msg:`Update Restaurant ${req.params.id}`});
+exports.updateRestaurant = async(req,res,next) => {
+    // res.status(200).json({success:true, msg:`Update Restaurant ${req.params.id}`});
+    try{
+        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators:true
+        }) ;
+        if (!restaurant) {
+            return res.status(400).json({success:false});
+        }
+        res.status(200).json({success:true, data:restaurant});
+    }catch(err){
+        res.status(400).json({success:false}) ;
+    }
 };
 
 //@desc Delete Restaurant
 //@route DELETE /api/v1/Restaurants/:id 
 //@access Private
-exports.deleteRestaurant = (req,res,next) => {
-    res.status(200).json({success:true, msg:`Delete Restaurant ${req.params.id}`});
+exports.deleteRestaurant = async(req,res,next) => {
+    // res.status(200).json({success:true, msg:`Delete Restaurant ${req.params.id}`});
+    try{
+        const restaurant = await Restaurant.findById(req.params.id) ;
+
+        if (!restaurant) {
+            return res.status(400).json({success:false, message: `Bootcamp not found with id of ${req.params.id}`});
+        }
+        await restaurant.deleteOne();
+        res.status(200).json({success:true, data:{}});
+    }catch(err){
+        res.status(400).json({success:false}) ;
+    }
 };
 
