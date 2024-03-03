@@ -31,7 +31,7 @@ const RestaurantSchema = new mongoose.Schema({
     toObject : {virtuals : true}
 });
 
-//Cascade delete appointments when a hospital is deleted
+//Cascade delete reservation when a restaurant is deleted
 RestaurantSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
     console.log(`Reservation being removed from Restaurant ${this._id}`);
     await this.model('Reservation').deleteMany({restaurant: this._id});
