@@ -24,24 +24,6 @@ const RestaurantSchema = new mongoose.Schema({
     tel: {
         type: String
     }
-    
-    // ,district:{
-    //     type: String,
-    //     required: [true,'Please add a district']
-    // },
-    // province: {
-    //     type: String,
-    //     required: [true,'Please add a province']
-    // },
-    // postalcode:{
-    //     type: String,
-    //     required: [true,'Please add a postalcode'],
-    //     maxlength:[5,'Postal Code can not be more than 5 digits']
-    // },   
-    // region:{
-    //     type : String,
-    //     required: [true,'Please add a region']
-    // }
 },{
     collection : "restaurant"
 },{
