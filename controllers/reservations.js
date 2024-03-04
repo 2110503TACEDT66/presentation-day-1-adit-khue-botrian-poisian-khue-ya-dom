@@ -46,12 +46,17 @@ return res.status(500).json({success: false, message:
 //@desc Get one reservations 
 //@route GET /api/v1/reservations/::id
 //@access Public
-exports.getReservation=async (req, res,next)=>{
+exports.getReservation=async (req,res,next)=>{
 try{
     const reservation = await Reservation.findById(req.params.id).populate({
         path:'restaurant',
         select:'name open_time close_time address tel'
     });
+    // console.log(reservation.user);
+    // console.log(req.user.id);
+    if(reservation.user !== req.user.id && req.user.role !== 'admin'){
+        return res.status(403).json({success : false ,message : `User id ${req.user.id} is not authorized to access this reservation`});
+    }
     if (!reservation) {
         return res.status(404).json({success:false,message:`No reservation with the id of ${req.params.id}`});
     }
