@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-const ReservationSchema=new mongoose.Schema({
+const MemberSchema=new mongoose.Schema({
 user: {
     type:mongoose.Schema.ObjectId,
     ref: 'User',
@@ -17,14 +17,17 @@ memberTier: {
 },
 createDate : {
     type: Date,
-    default: Date.now
+    default: Date.now()
 },
 expDate : {
     type:Date,
-    default : Date.now + (365 * 24 * 60 * 60 * 1000)
+    default : Date.now() + (365 * 24 * 60 * 60 * 1000)
 }
 },{
     collection:"member"
 }
 );
-module.exports = mongoose.model('Reservation', ReservationSchema);
+
+MemberSchema.index({ user: 1, restaurant: 1 }, { unique: true });
+
+module.exports = mongoose.model('Member', MemberSchema);

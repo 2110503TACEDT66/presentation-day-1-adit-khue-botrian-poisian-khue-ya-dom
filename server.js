@@ -16,10 +16,13 @@ app.use(express.json());
 app.use(cookieparser());
 const restaurants = require('./routes/restaurants');
 const reservations = require('./routes/reservations');
+const member = require('./routes/member');
 const auth = require('./routes/auth');
 app.use('/api/v1/restaurants', restaurants);
 app.use('/api/v1/reservations', reservations);
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/member', member);
+
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, console.log(`Server running in`, process.env.NODE_ENV, ` mode on port `, PORT));
