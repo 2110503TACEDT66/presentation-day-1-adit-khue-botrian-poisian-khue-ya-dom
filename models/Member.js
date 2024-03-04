@@ -15,11 +15,11 @@ memberTier: {
     type: String,
     required: true
 },
-createdAt: {
+createDate : {
     type: Date,
     default: Date.now
 },
-exp:{
+expDate : {
     type:Date,
     default : Date.now + (365 * 24 * 60 * 60 * 1000)
 }
