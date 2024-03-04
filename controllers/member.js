@@ -79,7 +79,7 @@ exports.addMember=async (req, res,next)=>{
         }
         console.log(req.body);
 
-        req.body.user=req.user.id;
+        // req.body.user=req.user.id;
 
         const member = await Member.create(req.body);
         res.status(200).json({success:true,data:member});

@@ -82,10 +82,13 @@ exports.addReservation=async (req, res,next)=>{
         }
         console.log(req.body);
 
-        req.body.user=req.user.id;
+        // req.body.user=req.user.id;
         const existedReservations=await Reservation.find({user:req.user.id});
         if (existedReservations.length>=3&&req.user.role !== 'admin'){
             return res.status(400).json({success:false,message:`The user with ID ${req.user.id} has already made 3 reservations`})
+        }
+        if(req.user.id !== req.body.user && req.user.role !== 'admin'){
+            return res.status(403).json({success : false ,message : `User id ${req.user.id} is not authorized to access this reservation`});
         }
 
         const reservation = await Reservation.create(req.body);
